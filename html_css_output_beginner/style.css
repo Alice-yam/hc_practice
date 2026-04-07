@@ -5,18 +5,20 @@ header {
     margin: 0 auto;
     padding-left: 4%;
     padding-right: 4%;
+    align-items: center;
 }
 
-.top-left {
+h1 {
     color: white;
     background-color: #333333;
     padding: 5px 15px;
 }
 
-.top-right {
+nav ul {
+    font-size: 20px;
     display: flex;
     gap: 20px;
-    padding: 5px 15px;
+    list-style: none;
 }
 
 .main_visual {
@@ -32,9 +34,8 @@ header {
      margin: 0 auto;
 }
 
-.label {
+h2 {
     font-size: 35px;
-    font-weight: bold;
     display: inline-block;
     border-bottom: black solid 1px;
     margin-top: 50px;
@@ -50,10 +51,6 @@ header {
     margin-top: 40px;
     gap: 40px;
     margin-bottom: 60px;
-}
-
-h4 {
-    font-size: 20px;
 }
 
 .about_image {
@@ -90,13 +87,22 @@ h4 {
 }
 
 footer {
-    font-size: 10px;
     color: gray;
     text-align: center;
     margin-top: 100px;
 }
 
 @media (max-width: 600px) {
+    h1 {
+        font-size: clamp(21px, 5vw, 32px);
+        
+    }
+
+    nav ul {
+        font-size: clamp(15px, 4vw, 20px);
+        padding: 0;
+    }
+
     h4 {
         text-align: center;
     }
@@ -108,11 +114,5 @@ footer {
     .profile {
         flex-direction: column;
         align-items: center;
-    }
-
-    .main_visual {
-        width: 1920px;
-        margin-left: 50%;
-        transform: translateX(-50%);
     }
 }
