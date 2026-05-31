@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>ToDo List</h1>
+    <div class="container">
+      <nav>
+        <ul class="status">
+          <li class="status-list">全てのタスク： <span id="total">0</span></li>
+          <li class="status-list">完了済み： <span id="completed">0</span></li>
+          <li class="status-list">未完了： <span id="active">0</span></li>
+        </ul>
+      </nav>
+      <div class="input-section">
+        <div class="add-task">
+          <input id="task-input" type="text" placeholder="新しいタスクを入力" />
+          <button id="save-btn">保存</button>
+        </div>
+
+        <ul id="add-list">
+          <!-- <li>
+        <span><input type="checkbox" />掃除</span>
+        <button class="edit-btn">編集</button>
+        <button class="delete-btn">削除</button>
+      </li> -->
+        </ul>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
