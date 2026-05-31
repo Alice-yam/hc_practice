@@ -3,7 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>鬼滅の刃</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
-  <body></body>
+  <body>
+    <!-- ラジオボタンの作成 -->
+    <input type="radio" name="category" value="all" checked />ALL
+    <input type="radio" name="category" value="hashira" />柱
+    <input type="radio" name="category" value="oni" />鬼
+    <input type="radio" name="category" value="kisatsutai" />鬼殺隊
+
+    <!-- ローディング画面 -->
+    <div id="loading">読み込み中...</div>
+
+    <div id="kimetsu_list"></div>
+    <script src="app.js"></script>
+  </body>
 </html>
