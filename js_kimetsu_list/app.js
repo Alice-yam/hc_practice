@@ -4,12 +4,13 @@ const kimetsuList = document.getElementById("kimetsu_list");
 
 const loading = document.getElementById("loading");
 
-const KIMETSU_ALL_API = "https://ihatov08.github.io/kimetsu_api/api/all.json"; // ALL
-const KIMETSU_HASIRA_API =
-  "https://ihatov08.github.io/kimetsu_api/api/hashira.json"; // 柱
-const KIMETSU_ONI_API = "https://ihatov08.github.io/kimetsu_api/api/oni.json"; // 鬼
-const KIMETSU_KISATSUTAI_API =
-  "https://ihatov08.github.io/kimetsu_api/api/kisatsutai.json"; // 鬼殺隊
+// 条件分岐が不要となったためAPIの定義も不要となる
+// const KIMETSU_ALL_API = "https://ihatov08.github.io/kimetsu_api/api/all.json"; // ALL
+// const KIMETSU_HASIRA_API =
+//   "https://ihatov08.github.io/kimetsu_api/api/hashira.json"; // 柱
+// const KIMETSU_ONI_API = "https://ihatov08.github.io/kimetsu_api/api/oni.json"; // 鬼
+// const KIMETSU_KISATSUTAI_API =
+//   "https://ihatov08.github.io/kimetsu_api/api/kisatsutai.json"; // 鬼殺隊
 
 const fetchAPI = async (url) => {
   try {
@@ -50,23 +51,28 @@ const fetchAPI = async (url) => {
   }
 };
 
-fetchAPI(KIMETSU_ALL_API);
+fetchAPI("https://ihatov08.github.io/kimetsu_api/api/all.json");
 
 // radioボタンの挙動 //
 const radios = document.getElementsByName("category");
 
 for (let i = 0; i < radios.length; i++) {
   radios[i].addEventListener("change", (e) => {
-    const selectValue = e.target.value;
+    const value = e.target.value;
 
-    if (selectValue === "all") {
-      fetchAPI(KIMETSU_ALL_API);
-    } else if (selectValue === "hashira") {
-      fetchAPI(KIMETSU_HASIRA_API);
-    } else if (selectValue === "oni") {
-      fetchAPI(KIMETSU_ONI_API);
-    } else if (selectValue === "kisatsutai") {
-      fetchAPI(KIMETSU_KISATSUTAI_API);
-    }
+    // if (selectValue === "all") {
+    //   fetchAPI(KIMETSU_ALL_API);
+    // } else if (selectValue === "hashira") {
+    //   fetchAPI(KIMETSU_HASIRA_API);
+    // } else if (selectValue === "oni") {
+    //   fetchAPI(KIMETSU_ONI_API);
+    // } else if (selectValue === "kisatsutai") {
+    //   fetchAPI(KIMETSU_KISATSUTAI_API);
+    // }
+
+    // valueを取得して下記のURLで受け取れば条件分岐が不要となる
+    const selectValue = `https://ihatov08.github.io/kimetsu_api/api/${value}.json`;
+
+    fetchAPI(selectValue);
   });
 }
