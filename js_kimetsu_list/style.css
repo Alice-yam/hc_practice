@@ -1,0 +1,12 @@
+#kimetsu_list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#kimetsu_list div {
+  width: 33.3%;
+}
+
+#kimetsu_list div img {
+  width: 100%;
+}
