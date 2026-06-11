@@ -1,0 +1,31 @@
+[users]
+  *id {label: "bigint, not null"}
+  email{ label: "varchar, not null, uniq"}
+  phone_number{label: "varchar, uniq"}
+  user_name{label: "varchar, uniq"}
+  created_at{ label: "datatime, not null"}
+  updated_at{ label: "datatime, not null"}
+
+[profiles]
+  *id {label: "bigint, not null"}
+  user_id {label: "bigint, not null, FK(users)"}
+  name {label: "varchar, not null"}
+  introduction {label: "text"}
+  place {label: "varchar"}
+  web_site {label: "varchar"}
+  birthday {label: "varchar"}
+  profile_image {label: "img"}
+  avatar_image {label: "img"}
+  created_at {label: "datatime, not null"}
+  updated_at {label: "datatime, not null"}
+
+users 1--1 `profiles`
+
+[tweets]
+  *id {label: "bigint, not null"}
+  user_id {label: "bigint, not null, FK(users)"}
+  tweet {label: "varchar(140), not null"}
+  created_at {label: "datatime, not null"}
+  updated_at {label: "datatime, not null"}
+
+users 1--* `tweets`
