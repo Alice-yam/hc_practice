@@ -24,7 +24,7 @@ users 1--1 `profiles`
 [tweets]
   *id {label: "bigint, not null"}
   user_id {label: "bigint, not null, FK(users)"}
-  tweet {label: "varchar(140), not null"}
+  content {label: "varchar(140), not null"}
   created_at {label: "datatime, not null"}
   updated_at {label: "datatime, not null"}
 
@@ -52,8 +52,8 @@ users 1--* `follows`
 
 [messages]
   *id {label: "bigint, not null"}
-  send_id {label: "bigint, not null, FK(users)"}
-  receive_id {label: "bigint, not null, FK(users)"}
+  sender_id {label: "bigint, not null, FK(users)"}
+  receiver_id {label: "bigint, not null, FK(users)"}
   message {label: "text, not null"}
   created_at {label: "datatime, not null"}
   updated_at {label: "datatime, not null"}
