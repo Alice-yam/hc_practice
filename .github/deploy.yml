@@ -35,17 +35,28 @@ jobs:
         with:
           node-version: 20
           cache: "npm"
-      - name: Install dependencies
-        run: npm ci
-      - name: Build
-        run: npm run build
+          cache-dependency-path: "react_todo_list/package-lock.json"
+      - name: Install dependencies && Build
+        run: |
+          cd react_todo_list
+          npm ci
+          npm run build
+
+      - name: Organize Deployment Folder
+        run: |
+          mkdir -p _site
+          rsync -av --exclude='_site' --exclude='.git' --exclude='.github' --exclude='react_todo_list' ./ _site/
+
+          mkdir -p _site/react_todo_list
+          cp -r react_todo_list/dist/* _site/react_todo_list/
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload dist folder
-          path: "./dist"
+          path: "./_site"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
