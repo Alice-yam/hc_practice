@@ -9,6 +9,7 @@ const App = () => {
 
   // -- 追加 -- //
   const addTodo = () => {
+    if (inputText === "") return; // 入力欄が空の時は何もしない
     // idとして重複しないDate関数を使用、isDoneは初期値falseでタスク未完了を表す
     const addTask = { id: Date.now(), text: inputText, isDone: false };
     setTodos([...todos, addTask]);
@@ -21,7 +22,7 @@ const App = () => {
   // それぞれのタスクの数を .lengthで取得
   const totalCount = todos.length; // 全て
   const completedCount = todos.filter((todo) => todo.isDone).length; // 完了済み
-  const activeCount = todos.filter((todo) => todo.isDone === false).length; // 未完了
+  const activeCount = todos.filter((todo) => !todo.isDone).length; // 未完了
 
   // -- チェックボックス -- //
   // isDoneの真偽を入れ替える
@@ -40,13 +41,11 @@ const App = () => {
 
   // -- 削除 -- //
   const deleteTodo = (id) => {
-    if (window.confirm("本当に削除してもよろしいですか？")) {
-      // 削除ボタンが押されていないものだけを残す
-      const deleteTask = todos.filter((todo) => todo.id !== id);
-      setTodos(deleteTask);
-    }
-    // いいえが押されたら何もしない
-    return;
+    // いいえならそのままreturn
+    if (!window.confirm("本当に削除してもよろしいですか？")) return;
+    // 削除ボタンが押されていないものだけを残す
+    const deleteTask = todos.filter((todo) => todo.id !== id);
+    setTodos(deleteTask);
   };
 
   // -- 編集 -- //
