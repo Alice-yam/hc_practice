@@ -140,6 +140,7 @@ export const Message = (props) => {
       </div>
 
       {/* モーダルの表示 */}
+
       {/* 編集ボタンが押され、editingMessageにnull以外が入った時 */}
       {editingMessage && (
         <div className="fixed inset-0 flex bg-black/50 justify-center items-center z-50">
