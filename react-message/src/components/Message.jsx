@@ -19,8 +19,15 @@ export const Message = (props) => {
       content: inputText,
       timestamp: new Date(),
     };
-    // newMessageをcurrentMessageの配列に追加(push)
-    currentMessage.push(newMessage);
+    // // newMessageをcurrentMessageの配列に追加(push)
+    // currentMessage.push(newMessage);
+    // ↑は直接配列を変更しているので、Reactの再レンダリングが起きない。なので、スプレッド構文で新しい配列を作る ↓↓
+    const updatedMessages = [...currentMessage, newMessage];
+    setMessages({
+      ...messages,
+      [props.selectedChatId]: updatedMessages,
+    });
+
     // 入力欄を空にする
     setInputText("");
   };
