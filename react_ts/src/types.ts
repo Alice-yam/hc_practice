@@ -19,7 +19,7 @@ export type Student = CommonUser & {
   score: number;
 };
 // 生徒の対応可能なメンター名
-export type AvailableMentorNames = Student & {
+export type StudentWithAvailableMentors = Student & {
   availableMentorNames: string[];
 };
 
@@ -32,14 +32,14 @@ export type Mentor = CommonUser & {
   availableEndCode: number;
 };
 // メンターの対応可能な生徒名
-export type AvailableStudentNames = Mentor & {
+export type MentorWithAvailableStudents = Mentor & {
   availableStudentNames: string[];
 };
 
 export type User = Student | Mentor;
 
 // タブ切り替え用
-export type TabType = "all" | "student" | "mentor";
+export type UserFilterTab = "all" | "student" | "mentor";
 
 // ソート用
 export type SortKey = "studyMinutes" | "score" | "experienceDays" | "";

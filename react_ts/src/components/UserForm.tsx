@@ -9,26 +9,51 @@ type UserFormProps = {
 
 export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
   // 共通の State
-  const [role, setRole] = useState<Role>("student");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [age, setAge] = useState<number | "">("");
-  const [postCode, setPostCode] = useState("");
-  const [phone, setPhone] = useState("");
-  const [hobbies, setHobbies] = useState("");
-  const [url, setUrl] = useState("");
+  // const [role, setRole] = useState<Role>("student");
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [age, setAge] = useState<number | "">("");
+  // const [postCode, setPostCode] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [hobbies, setHobbies] = useState("");
+  // const [url, setUrl] = useState("");
+  // ↓ 以上をまとめて管理するように修正
+  const [commonForm, setCommonForm] = useState({
+    role: "student" as Role,
+    name: "",
+    email: "",
+    age: "" as number | "",
+    postCode: "",
+    phone: "",
+    hobbies: "",
+    url: "",
+  });
 
   // 生徒用のState
-  const [studyMinutes, setStudyMinutes] = useState<number | "">("");
-  const [taskCode, setTaskCode] = useState<number | "">("");
-  const [studyLangs, setStudyLangs] = useState(""); // カンマ区切り
-  const [score, setScore] = useState<number | "">("");
+  // const [studyMinutes, setStudyMinutes] = useState<number | "">("");
+  // const [taskCode, setTaskCode] = useState<number | "">("");
+  // const [studyLangs, setStudyLangs] = useState(""); // カンマ区切り
+  // const [score, setScore] = useState<number | "">("");
+  // ↓ 以上をまとめて管理するように修正
+  const [studentForm, setStudentForm] = useState({
+    studyMinutes: "" as number | "",
+    taskCode: "" as number | "",
+    studyLangs: "", // カンマ区切り
+    score: "" as number | "",
+  });
 
   // メンター用のState
-  const [experienceMonths, setExperienceMonths] = useState<number | "">("");
-  const [useLangs, setUseLangs] = useState("");
-  const [availableStartCode, setAvailableStartCode] = useState<number | "">("");
-  const [availableEndCode, setAvailableEndCode] = useState<number | "">("");
+  // const [experienceMonths, setExperienceMonths] = useState<number | "">("");
+  // const [useLangs, setUseLangs] = useState("");
+  // const [availableStartCode, setAvailableStartCode] = useState<number | "">("");
+  // const [availableEndCode, setAvailableEndCode] = useState<number | "">("");
+  // ↓ 以上をまとめて管理するように修正
+  const [mentorForm, setMentorForm] = useState({
+    experienceMonths: "" as number | "",
+    useLangs: "",
+    availableStartCode: "" as number | "",
+    availableEndCode: "" as number | "",
+  });
 
   if (!isOpen) return null;
 
@@ -38,35 +63,39 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
 
     const baseUser = {
       id: Date.now(),
-      name,
-      email,
-      age: Number(age) || 0,
-      postCode,
-      phone,
-      hobbies: hobbies ? hobbies.split(",").map((s) => s.trim()) : [],
-      url,
+      name: commonForm.name,
+      email: commonForm.email,
+      age: Number(commonForm.age) || 0,
+      postCode: commonForm.postCode,
+      phone: commonForm.phone,
+      hobbies: commonForm.hobbies
+        ? commonForm.hobbies.split(",").map((s) => s.trim())
+        : [],
+      url: commonForm.url,
     };
 
-    if (role === "student") {
+    if (commonForm.role === "student") {
       const newUser: User = {
         ...baseUser,
         role: "student",
-        studyMinutes: Number(studyMinutes) || 0,
-        taskCode: Number(taskCode) || 0,
-        studyLangs: studyLangs
-          ? studyLangs.split(",").map((s) => s.trim())
+        studyMinutes: Number(studentForm.studyMinutes) || 0,
+        taskCode: Number(studentForm.taskCode) || 0,
+        studyLangs: studentForm.studyLangs
+          ? studentForm.studyLangs.split(",").map((s) => s.trim())
           : [],
-        score: Number(score) || 0,
+        score: Number(studentForm.score) || 0,
       };
       onAddUser(newUser);
     } else {
       const newUser: User = {
         ...baseUser,
         role: "mentor",
-        experienceDays: (Number(experienceMonths) || 0) * 30, // 月数を日数に換算
-        useLangs: useLangs ? useLangs.split(",").map((s) => s.trim()) : [],
-        availableStartCode: Number(availableStartCode) || 0,
-        availableEndCode: Number(availableEndCode) || 0,
+        experienceDays: (Number(mentorForm.experienceMonths) || 0) * 30, // 月数を日数に換算
+        useLangs: mentorForm.useLangs
+          ? mentorForm.useLangs.split(",").map((s) => s.trim())
+          : [],
+        availableStartCode: Number(mentorForm.availableStartCode) || 0,
+        availableEndCode: Number(mentorForm.availableEndCode) || 0,
       };
       onAddUser(newUser);
     }
@@ -88,8 +117,10 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
                 <input
                   type="radio"
                   value="student"
-                  checked={role === "student"}
-                  onChange={() => setRole("student")}
+                  checked={commonForm.role === "student"}
+                  onChange={() =>
+                    setCommonForm((prev) => ({ ...prev, role: "student" }))
+                  }
                 />
                 生徒
               </label>
@@ -97,8 +128,10 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
                 <input
                   type="radio"
                   value="mentor"
-                  checked={role === "mentor"}
-                  onChange={() => setRole("mentor")}
+                  checked={commonForm.role === "mentor"}
+                  onChange={() =>
+                    setCommonForm((prev) => ({ ...prev, role: "mentor" }))
+                  }
                 />
                 メンター
               </label>
@@ -111,8 +144,10 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
             <input
               type="text"
               required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={commonForm.name}
+              onChange={(e) =>
+                setCommonForm((prev) => ({ ...prev, name: e.target.value }))
+              }
               className="w-full border rounded px-3 py-1.5"
             />
           </div>
@@ -124,8 +159,10 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
             <input
               type="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={commonForm.email}
+              onChange={(e) =>
+                setCommonForm((prev) => ({ ...prev, email: e.target.value }))
+              }
               className="w-full border rounded px-3 py-1.5"
             />
           </div>
@@ -135,9 +172,12 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
               <label className="block text-sm font-medium mb-1">年齢</label>
               <input
                 type="number"
-                value={age}
+                value={commonForm.age}
                 onChange={(e) =>
-                  setAge(e.target.value === "" ? "" : Number(e.target.value))
+                  setCommonForm((prev) => ({
+                    ...prev,
+                    age: e.target.value === "" ? "" : Number(e.target.value),
+                  }))
                 }
                 className="w-full border rounded px-3 py-1.5"
               />
@@ -146,8 +186,13 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
               <label className="block text-sm font-medium mb-1">郵便番号</label>
               <input
                 type="text"
-                value={postCode}
-                onChange={(e) => setPostCode(e.target.value)}
+                value={commonForm.postCode}
+                onChange={(e) =>
+                  setCommonForm((prev) => ({
+                    ...prev,
+                    postCode: e.target.value,
+                  }))
+                }
                 className="w-full border rounded px-3 py-1.5"
               />
             </div>
@@ -157,8 +202,10 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
             <label className="block text-sm font-medium mb-1">電話番号</label>
             <input
               type="text"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              value={commonForm.phone}
+              onChange={(e) =>
+                setCommonForm((prev) => ({ ...prev, phone: e.target.value }))
+              }
               className="w-full border rounded px-3 py-1.5"
             />
           </div>
@@ -167,8 +214,10 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
             <label className="block text-sm font-medium mb-1">趣味</label>
             <input
               type="text"
-              value={hobbies}
-              onChange={(e) => setHobbies(e.target.value)}
+              value={commonForm.hobbies}
+              onChange={(e) =>
+                setCommonForm((prev) => ({ ...prev, hobbies: e.target.value }))
+              }
               className="w-full border rounded px-3 py-1.5"
             />
           </div>
@@ -177,14 +226,16 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
             <label className="block text-sm font-medium mb-1">URL</label>
             <input
               type="url"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
+              value={commonForm.url}
+              onChange={(e) =>
+                setCommonForm((prev) => ({ ...prev, url: e.target.value }))
+              }
               className="w-full border rounded px-3 py-1.5"
             />
           </div>
 
           {/* 生徒専用の入力項目 */}
-          {role === "student" && (
+          {commonForm.role === "student" && (
             <div className="border-t pt-3 space-y-3">
               <h3 className="font-semibold text-gray-700">生徒情報</h3>
               <div className="grid grid-cols-2 gap-2">
@@ -194,11 +245,13 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
                   </label>
                   <input
                     type="number"
-                    value={studyMinutes}
+                    value={studentForm.studyMinutes}
                     onChange={(e) =>
-                      setStudyMinutes(
-                        e.target.value === "" ? "" : Number(e.target.value),
-                      )
+                      setStudentForm((prev) => ({
+                        ...prev,
+                        studyMinutes:
+                          e.target.value === "" ? "" : Number(e.target.value),
+                      }))
                     }
                     className="w-full border rounded px-3 py-1.5"
                   />
@@ -209,11 +262,13 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
                   </label>
                   <input
                     type="number"
-                    value={taskCode}
+                    value={studentForm.taskCode}
                     onChange={(e) =>
-                      setTaskCode(
-                        e.target.value === "" ? "" : Number(e.target.value),
-                      )
+                      setStudentForm((prev) => ({
+                        ...prev,
+                        taskCode:
+                          e.target.value === "" ? "" : Number(e.target.value),
+                      }))
                     }
                     className="w-full border rounded px-3 py-1.5"
                   />
@@ -225,8 +280,13 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
                 </label>
                 <input
                   type="text"
-                  value={studyLangs}
-                  onChange={(e) => setStudyLangs(e.target.value)}
+                  value={studentForm.studyLangs}
+                  onChange={(e) =>
+                    setStudentForm((prev) => ({
+                      ...prev,
+                      studyLangs: e.target.value,
+                    }))
+                  }
                   className="w-full border rounded px-3 py-1.5"
                 />
               </div>
@@ -236,11 +296,13 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
                 </label>
                 <input
                   type="number"
-                  value={score}
+                  value={studentForm.score}
                   onChange={(e) =>
-                    setScore(
-                      e.target.value === "" ? "" : Number(e.target.value),
-                    )
+                    setStudentForm((prev) => ({
+                      ...prev,
+                      score:
+                        e.target.value === "" ? "" : Number(e.target.value),
+                    }))
                   }
                   className="w-full border rounded px-3 py-1.5"
                 />
@@ -249,7 +311,7 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
           )}
 
           {/* メンター専用の入力項目 */}
-          {role === "mentor" && (
+          {commonForm.role === "mentor" && (
             <div className="border-t pt-3 space-y-3">
               <h3 className="font-semibold text-gray-700">メンター情報</h3>
               <div>
@@ -258,11 +320,13 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
                 </label>
                 <input
                   type="number"
-                  value={experienceMonths}
+                  value={mentorForm.experienceMonths}
                   onChange={(e) =>
-                    setExperienceMonths(
-                      e.target.value === "" ? "" : Number(e.target.value),
-                    )
+                    setMentorForm((prev) => ({
+                      ...prev,
+                      experienceMonths:
+                        e.target.value === "" ? "" : Number(e.target.value),
+                    }))
                   }
                   className="w-full border rounded px-3 py-1.5"
                 />
@@ -273,8 +337,13 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
                 </label>
                 <input
                   type="text"
-                  value={useLangs}
-                  onChange={(e) => setUseLangs(e.target.value)}
+                  value={mentorForm.useLangs}
+                  onChange={(e) =>
+                    setMentorForm((prev) => ({
+                      ...prev,
+                      useLangs: e.target.value,
+                    }))
+                  }
                   className="w-full border rounded px-3 py-1.5"
                 />
               </div>
@@ -285,11 +354,13 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
                   </label>
                   <input
                     type="number"
-                    value={availableStartCode}
+                    value={mentorForm.availableStartCode}
                     onChange={(e) =>
-                      setAvailableStartCode(
-                        e.target.value === "" ? "" : Number(e.target.value),
-                      )
+                      setMentorForm((prev) => ({
+                        ...prev,
+                        availableStartCode:
+                          e.target.value === "" ? "" : Number(e.target.value),
+                      }))
                     }
                     className="w-full border rounded px-3 py-1.5"
                   />
@@ -300,11 +371,13 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
                   </label>
                   <input
                     type="number"
-                    value={availableEndCode}
+                    value={mentorForm.availableEndCode}
                     onChange={(e) =>
-                      setAvailableEndCode(
-                        e.target.value === "" ? "" : Number(e.target.value),
-                      )
+                      setMentorForm((prev) => ({
+                        ...prev,
+                        availableEndCode:
+                          e.target.value === "" ? "" : Number(e.target.value),
+                      }))
                     }
                     className="w-full border rounded px-3 py-1.5"
                   />

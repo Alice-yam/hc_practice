@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { USER_LIST } from "./constants";
 import { getAvailableMentorNames } from "./utils/userUtils";
-import type { SortKey, SortOrder, TabType, User } from "./types";
+import type { SortKey, SortOrder, UserFilterTab, User } from "./types";
 import { UserTable } from "./components/UserTable";
 import { UserTabs } from "./components/UserTabs";
 import { UserForm } from "./components/UserForm";
@@ -21,7 +21,7 @@ export function App() {
   };
 
   // タブ切り替え用のstate
-  const [activeTab, setActiveTab] = useState<TabType>("all");
+  const [activeTab, setActiveTab] = useState<UserFilterTab>("all");
 
   // activeTabの値によって絞り込む
   const filteredUsers = displayUsers.filter((user) => {
@@ -71,7 +71,7 @@ export function App() {
   });
 
   // 前の情報が残らないようにタブを切り替えたらソートをリセットする
-  const handleTabChange = (tab: TabType) => {
+  const handleTabChange = (tab: UserFilterTab) => {
     setActiveTab(tab);
     setSortKey("");
     setSortOrder("asc");

@@ -1,12 +1,12 @@
 import type {
-  AvailableMentorNames,
-  AvailableStudentNames,
-  TabType,
+  MentorWithAvailableStudents,
+  StudentWithAvailableMentors,
+  UserFilterTab,
 } from "../types";
 
 type UserTableProps = {
-  users: (AvailableMentorNames | AvailableStudentNames)[];
-  activeTab: TabType;
+  users: (MentorWithAvailableStudents | StudentWithAvailableMentors)[];
+  activeTab: UserFilterTab;
 };
 
 export const UserTable = ({ users, activeTab }: UserTableProps) => {
