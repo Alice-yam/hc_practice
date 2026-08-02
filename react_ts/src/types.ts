@@ -46,3 +46,29 @@ export type SortKey = "studyMinutes" | "score" | "experienceDays" | "";
 export type SortOrder = "asc" | "desc";
 
 export type Role = "student" | "mentor";
+
+// 共通form
+export type CommonFormType = {
+  role: Role;
+  name: string;
+  email: string;
+  age: number | "";
+  postCode: string;
+  phone: string;
+  hobbies: string;
+  url: string;
+};
+// 生徒用form
+export type StudentFormType = {
+  studyMinutes: number | "";
+  taskCode: number | "";
+  studyLangs: string;
+  score: number | "";
+};
+// メンター用form
+export type MentorFormType = {
+  experienceMonths: number | "";
+  useLangs: string;
+  availableStartCode: number | "";
+  availableEndCode: number | "";
+};

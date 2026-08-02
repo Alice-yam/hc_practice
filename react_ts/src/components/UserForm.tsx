@@ -1,5 +1,12 @@
 import { useState } from "react";
-import type { Role, User } from "../types";
+import type {
+  User,
+  Student,
+  Mentor,
+  CommonFormType,
+  StudentFormType,
+  MentorFormType,
+} from "../types";
 
 type UserFormProps = {
   isOpen: boolean;
@@ -7,19 +14,14 @@ type UserFormProps = {
   onAddUser: (newUser: User) => void;
 };
 
+// カンマ区切り文字列のパースを共通関数に切り出す
+const parseCommaList = (s: string) =>
+  s ? s.split(",").map((v) => v.trim()) : [];
+
 export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
   // 共通の State
-  // const [role, setRole] = useState<Role>("student");
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [age, setAge] = useState<number | "">("");
-  // const [postCode, setPostCode] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [hobbies, setHobbies] = useState("");
-  // const [url, setUrl] = useState("");
-  // ↓ 以上をまとめて管理するように修正
-  const [commonForm, setCommonForm] = useState({
-    role: "student" as Role,
+  const [commonForm, setCommonForm] = useState<CommonFormType>({
+    role: "student",
     name: "",
     email: "",
     age: "" as number | "",
@@ -30,29 +32,19 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
   });
 
   // 生徒用のState
-  // const [studyMinutes, setStudyMinutes] = useState<number | "">("");
-  // const [taskCode, setTaskCode] = useState<number | "">("");
-  // const [studyLangs, setStudyLangs] = useState(""); // カンマ区切り
-  // const [score, setScore] = useState<number | "">("");
-  // ↓ 以上をまとめて管理するように修正
-  const [studentForm, setStudentForm] = useState({
-    studyMinutes: "" as number | "",
-    taskCode: "" as number | "",
-    studyLangs: "", // カンマ区切り
-    score: "" as number | "",
+  const [studentForm, setStudentForm] = useState<StudentFormType>({
+    studyMinutes: "",
+    taskCode: "",
+    studyLangs: "",
+    score: "",
   });
 
   // メンター用のState
-  // const [experienceMonths, setExperienceMonths] = useState<number | "">("");
-  // const [useLangs, setUseLangs] = useState("");
-  // const [availableStartCode, setAvailableStartCode] = useState<number | "">("");
-  // const [availableEndCode, setAvailableEndCode] = useState<number | "">("");
-  // ↓ 以上をまとめて管理するように修正
-  const [mentorForm, setMentorForm] = useState({
-    experienceMonths: "" as number | "",
+  const [mentorForm, setMentorForm] = useState<MentorFormType>({
+    experienceMonths: "",
     useLangs: "",
-    availableStartCode: "" as number | "",
-    availableEndCode: "" as number | "",
+    availableStartCode: "",
+    availableEndCode: "",
   });
 
   if (!isOpen) return null;
@@ -68,32 +60,26 @@ export const UserForm = ({ isOpen, onClose, onAddUser }: UserFormProps) => {
       age: Number(commonForm.age) || 0,
       postCode: commonForm.postCode,
       phone: commonForm.phone,
-      hobbies: commonForm.hobbies
-        ? commonForm.hobbies.split(",").map((s) => s.trim())
-        : [],
+      hobbies: parseCommaList(commonForm.hobbies),
       url: commonForm.url,
     };
 
     if (commonForm.role === "student") {
-      const newUser: User = {
+      const newUser: Student = {
         ...baseUser,
         role: "student",
         studyMinutes: Number(studentForm.studyMinutes) || 0,
         taskCode: Number(studentForm.taskCode) || 0,
-        studyLangs: studentForm.studyLangs
-          ? studentForm.studyLangs.split(",").map((s) => s.trim())
-          : [],
+        studyLangs: parseCommaList(studentForm.studyLangs),
         score: Number(studentForm.score) || 0,
       };
       onAddUser(newUser);
     } else {
-      const newUser: User = {
+      const newUser: Mentor = {
         ...baseUser,
         role: "mentor",
         experienceDays: (Number(mentorForm.experienceMonths) || 0) * 30, // 月数を日数に換算
-        useLangs: mentorForm.useLangs
-          ? mentorForm.useLangs.split(",").map((s) => s.trim())
-          : [],
+        useLangs: parseCommaList(mentorForm.useLangs),
         availableStartCode: Number(mentorForm.availableStartCode) || 0,
         availableEndCode: Number(mentorForm.availableEndCode) || 0,
       };
